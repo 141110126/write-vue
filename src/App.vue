@@ -6,8 +6,8 @@
     </div>
     <p @click="$store.commit('add')">{{$store.state.count}}</p>
     <p @click="$store.dispatch('add')">async: {{$store.state.count}}</p>
+    <p>getters:{{$store.getters.doubleCount}}</p>
     <button @click="handle">按钮</button>
-
     <router-view/>
   </div>
 </template>
@@ -15,7 +15,8 @@
 export default {
   methods: {
     handle() {
-      this.$store.state.count = 2;
+      // this.$store.state.count = 2;
+      console.log(this.$store.getters.doubleCount);
     }
   }
 };
