@@ -7,7 +7,7 @@
     <p @click="$store.commit('add')">{{$store.state.count}}</p>
     <p @click="$store.dispatch('add')">async: {{$store.state.count}}</p>
     <p>getters:{{$store.getters.doubleCount}}</p>
-    <button @click="handle">按钮</button>
+    <button @click="handle">测试按钮</button>
     <router-view/>
   </div>
 </template>
@@ -16,7 +16,10 @@ export default {
   methods: {
     handle() {
       // this.$store.state.count = 2;
+      // this.$store.getters.doubleCount = 13;
       console.log(this.$store.getters.doubleCount);
+      console.log(this.$router.matched);
+
     }
   }
 };

@@ -3,7 +3,6 @@ class Store {
   constructor(options) {
     this._mutations = options.mutations;
     this._actions = options.actions;
-    
 
     // 在使用时不知道上下文是谁了，所以这里锁死Store实例
     this.commit = this.commit.bind(this);
