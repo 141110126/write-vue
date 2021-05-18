@@ -13,6 +13,11 @@ export default {
   name: 'Home',
   components: {
     HelloWorld
+  },
+  mounted() {
+    console.log(this.$vnode);
+    console.log(this.$options.name);
+
   }
 }
 </script>

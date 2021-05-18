@@ -3,7 +3,6 @@ let Vue;
 class VueRouter {
   constructor(options) {
     this.options = options;
-
     // 初始化current，设置current为响应式数据，当current改变时重新渲染页面
     // Vue.util.defineReactive(
     //   this,
@@ -29,13 +28,14 @@ class VueRouter {
 
   // 设置match方法，遍历路由表，获取匹配关系数组
   match(routes){
+    // routes = routes || this.options.routes;
     routes = routes || this.options.routes;
+
     // 递归遍历
     for(const route of routes) {
       // 一般不会在Home配置子路由,所以暂时不考虑该路由有子路由的情况
       if(route.path === "/" && this.current === "/") {
         this.matched.push(route)
-        console.log(this.matched);
         return;
       }
       // 判断当前hash是否与路由匹配，若匹配则将路由加入matched数组中，并递归其子路由
@@ -44,8 +44,7 @@ class VueRouter {
         if(route.children) {
           this.match(route.children)
         }
-        console.log(this.matched);
-        return;
+        // return;
       }
     }
   }
@@ -55,7 +54,6 @@ class VueRouter {
 // vue插件都要有install方法：注册router-link和router-view两个组件 使得我们在组件中使用时可以<router-view>，将router挂载到Vue原型链上,使得我们在组件中使用时可以this.$router
 VueRouter.install = function(_vue) {
   Vue = _vue;
-  console.log(_vue);
 
   //   将router挂载到Vue原型链上
   // 因为VueRouter执行install时Vue实例还没有创建（详见main.js），所以要使用混入的方式，在beforeCreate时再挂载
@@ -78,20 +76,25 @@ VueRouter.install = function(_vue) {
       // 思路：获取路由的层级深度，路由匹配时获取代表深度层级的数组matched，调用router-view组件时找到matched[depth]对应的组件
       // 在虚拟dom中设置routerView表明此组件是否为routerView组件
       this.$vnode.data.routerView = true;
-      console.log(this.$vnode);
+      // console.log(this.$vnode);
       let depth = 0;
       let parent = this.$parent;
+      console.log(this.$parent);
+      console.log(this.$parent.$options.name);
+
       // 循环获取所有parent
       while(parent) {
         // 获取$vnode.data
         const vnodeData =  parent.$vnode &&  parent.$vnode.data;
         // 判断当前parent是否为router-view组件，若是，则深度加1
-        if(vnodeData && vnodeData.routerView) {
-          depth ++ 
+        if(vnodeData) {
+          if(vnodeData.routerView) {
+            depth ++ 
+          }
         }
-        console.log(parent.$vnode);
+        // console.log(parent.$vnode);
         // console.log(parent.$vnode.data);
-        console.log(vnodeData.routerView);
+        // console.log(vnodeData.routerView);
 
         parent = parent.$parent
       }
@@ -99,10 +102,13 @@ VueRouter.install = function(_vue) {
       // 获取path对应的component
       let component = null;
       const route = this.$router.matched[depth];
+      console.log(this.$router.matched);
+      console.log(depth);
+
       if(route) {
         component = route.component
       }
-      console.log(depth);
+      // console.log(depth);
       return h(component)
 
       // const { current, options } = this.$router;

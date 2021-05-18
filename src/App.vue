@@ -17,8 +17,10 @@ export default {
     handle() {
       // this.$store.state.count = 2;
       // this.$store.getters.doubleCount = 13;
-      console.log(this.$store.getters.doubleCount);
-      console.log(this.$router.matched);
+      // console.log(this.$store.getters.doubleCount);
+      // console.log(this.$router.matched);
+
+      console.log(this.$vnode);
 
     }
   }
